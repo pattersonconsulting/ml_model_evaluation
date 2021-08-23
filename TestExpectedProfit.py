@@ -119,6 +119,25 @@ class TestExpectedProfit(unittest.TestCase):
         print("expected value: " + str(exp_value))
 
 
+    def test_expected_value_w_priors_2(self):
+
+        print("Testing expected value with class priors alt set up")
+
+        #[[tp, fp], [fn, tn]] = standard_cmatrix
+
+        std_cmatrix = [[15, 4], [40, 1441]]
+
+
+        # confusion_mat = np.array([[tp, fp], [fn, tn]])
+        cost_benefit_matrix = np.array([[2440, -60],
+                                        [0, 0]])
+
+
+        exp_value = model_valuation.expected_value_calculation_with_class_priors(std_cmatrix, cost_benefit_matrix)
+
+        print("imbalanced dataset results, expected value: " + str(exp_value))
+
+
 
 
 
