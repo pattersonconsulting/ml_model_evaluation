@@ -73,7 +73,7 @@ class TestExpectedProfit(unittest.TestCase):
         self.assertEqual(pos_class_prior, 0.5, "positive class prior Should be 0.5")
         self.assertEqual(neg_class_prior, 0.5, "negative class prior Should be 0.5")
 
-
+    '''
     def test_expected_profit_naive(self):
 
         y_true = [0, 1, 0, 1]
@@ -96,11 +96,35 @@ class TestExpectedProfit(unittest.TestCase):
 
 
         self.assertEqual(tp, 1, "TP Should be 1")
+    '''
+
+    def test_expected_value_naive(self):
+
+        print("\nTesting expected value naive")
+
+
+        y_true = [0, 1, 0, 1]
+        y_pred = [1, 1, 1, 0]
+
+        scmtrx = model_valuation.standard_confusion_matrix(y_true, y_pred)
+
+
+        # confusion_mat = np.array([[tp, fp], [fn, tn]])
+        cost_benefit_matrix = np.array([[4, -5],
+                            [0, 0]])
+
+
+        exp_value = model_valuation.expected_value_calculation_naive(scmtrx, cost_benefit_matrix)
+
+        print("naive expected value: " + str(exp_value))
+
+        self.assertEqual(exp_value, -1.5, "Expected Value should be -3.0")
+
 
 
     def test_expected_value_w_priors(self):
 
-        print("Testing expected value with class priors")
+        print("\nTesting expected value with class priors")
 
 
         y_true = [0, 1, 0, 1]
@@ -117,6 +141,9 @@ class TestExpectedProfit(unittest.TestCase):
         exp_value = model_valuation.expected_value_calculation_with_class_priors(scmtrx, cost_benefit_matrix)
 
         print("expected value: " + str(exp_value))
+
+
+        self.assertEqual(exp_value, -1.5, "Expected Value should be -1.5")
 
 
     def test_expected_value_w_priors_2(self):
@@ -138,6 +165,7 @@ class TestExpectedProfit(unittest.TestCase):
         print("imbalanced dataset results, expected value: " + str(exp_value))
 
 
+        self.assertEqual(exp_value, 24.24, "Expected Value should be 24.24")
 
 
 

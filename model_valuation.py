@@ -40,6 +40,29 @@ def calc_confusion_matrix_conditional_probabilities(standard_cmatrix):
 	return np.array([[tp_rate, fp_rate], [fn_rate, tn_rate]])
 
 
+'''
+	Takes a [2, 2] np.array as input with the format: [[tp, fp], [fn, tn]]
+	
+
+	# this function calculates the
+	# ESTIMATED probabilities of each cell in our confusion matrix 
+	# given the TOTAL RECORDS in our population
+
+'''
+def calc_confusion_matrix_estimated_probabilities(standard_cmatrix):
+
+	total_records = calc_total_records(standard_cmatrix)
+
+	[[tp, fp], [fn, tn]] = standard_cmatrix
+
+	tp_est_prob = tp / total_records
+	fp_est_prob = fp / total_records
+	fn_est_prob = fn / total_records
+	tn_est_prob = tn / total_records
+
+	return np.array([[tp_est_prob, fp_est_prob], [fn_est_prob, tn_est_prob]])
+
+
 def calc_total_records(standard_cmatrix):
 
 	[[tp, fp], [fn, tn]] = standard_cmatrix
@@ -64,40 +87,39 @@ def calc_class_priors(standard_cmatrix):
 	Calculating Expected Profit (binary classifier)
 
 		* this is the naive version that doesnt not take into account class priors
-		* currently it is not taking into account probabilities for the confusion matrix (for some reason?)
+		* here we use "estimates of probabilities": p(h,a) == count(h,a) / TotalInstances (NOT the TP Rate, etc)
 
 
 '''
-def expected_profit_calculation_naive(y_test, y_pred, cost_benefit_matrix):
-
-	total_instance_count = len(y_test)
-
-	std_cmatrix = standard_confusion_matrix(y_test, y_pred)
-	
-	#[[tp, fp], [fn, tn]] = std_cmatrix
-
-	cm_cond_prob = calc_confusion_matrix_conditional_probabilities( std_cmatrix )
-
-	[[tpr, fpr], [fnr, tnr]] = cm_cond_prob
+def expected_value_calculation_naive(standard_cmatrix, cost_benefit_matrix):
 
 
-	# Calculate total profit for this confusion matrix
-	# note: the multiplication below is a element-wise multiplication, not a matrix-multiplication (this got me one time)
+	cm_est_prob = calc_confusion_matrix_estimated_probabilities( standard_cmatrix )
+
+	[[tp_est_prob, fp_est_prob], [fn_est_prob, tn_est_prob]] = cm_est_prob
 
 
-	#expected_profit = sum(sum(confusion_mat * cost_benefit_matrix)) / len(y_test)	
-	expected_profit = sum( sum( cost_benefit_matrix * cm_cond_prob ) ) / total_instance_count
+	[[tp_value, fp_value], [fn_value, tn_value]] = cost_benefit_matrix
+
+	#print("\ntpr: " + str(tpr))
+	#print("tp_value: " + str(tp_value))
+
+	#print("fpr: " + str(fpr))
+	#print("fp_value: " + str(fp_value))
+
+	# calculate "naive" expected value (expected value without the class priors)
+	expected_value = (tp_est_prob * tp_value + fn_est_prob * fn_value) + (tn_est_prob * tn_value + fp_est_prob * fp_value)
 
 
-	return expected_profit
+	return expected_value
 
 
 
 '''
 	Calculating Expected Profit (binary classifier) with class priors
 
-		* this is the naive version that doesnt not take into account class priors
-		* currently it is not taking into account probabilities for the confusion matrix (for some reason?)
+		* the p(Y|p) correspondes directly to the *true positive rate* (from confusion matrix) -- as do the other associated values
+		* this is foundationally different than the "naive"-version where we use "estimates of probabilities": p(h,a) == count(h,a) / TotalInstances
 
 
 '''
