@@ -150,6 +150,53 @@ def expected_value_calculation_with_class_priors(standard_cmatrix, cost_benefit_
 
 	return expected_value
 
+def expected_value_calculation_with_class_priors_at_threshold( costbenefit_mat, y_proba, y_test, percent_ranked_instances ):
+
+	record_count = float( len( y_test ) )
+
+	threshold_index = int(percent_ranked_instances * (record_count)) - 1
+	if (threshold_index < 0):
+		threshold_index = 0
+
+	'''
+	print("\npercent_ranked_instances: " + str(percent_ranked_instances))
+	print("threshold index: " + str(threshold_index))
+	'''
+
+	#thresholds = np.arange(0,1,0.01)
+
+	confusion_matrices = []
+
+	# sort thresholds such that the thresholds closest to 1.0 start towards the front of the list
+	thresholds = sorted(y_proba, reverse=True)
+
+	threshold = thresholds[ threshold_index ]
+
+	'''
+	print( "thresholds: " + str(thresholds) )
+	print( "threshold: " + str(threshold) )
+	print( "y_proba: " + str(y_proba))
+	'''
+
+
+	#print("y_proba: " + str(type(y_proba)))
+	
+
+	y_predict = (y_proba > threshold - 0.0001).astype(int) #  + 0.0001
+
+	'''
+	print( "y_predict: " + str(y_predict))
+	print( "y_test   : " + str(np.array(y_test)))
+	'''
+
+	confusion_matrix = standard_confusion_matrix(y_test, y_predict)
+
+	#print(confusion_matrix)
+
+	expected_value_for_threshold = expected_value_calculation_with_class_priors(confusion_matrix, costbenefit_mat)
+
+	return expected_value_for_threshold
+
 
 
 '''
@@ -157,11 +204,16 @@ Analyze a model's performance and threshold optimal point based on a cost-benefi
 
 INPUTS:
 	- cost benefit matrix in the same format as the confusion matrix above
+		- format: [[tp, fp], [fn, tn]]
 	- predicted probabilities
 	- actual labels
 
 OUTPUT
 	{ max_profit, best_confusion_matrix }
+
+
+NOTES
+	we take the predicted est probabilities from a classifier and we sort them high (1.0) to low (0.0)
 
 '''
 def calculate_optimal_model_threshold( costbenefit_mat, y_proba, y_test ):
@@ -175,32 +227,66 @@ def calculate_optimal_model_threshold( costbenefit_mat, y_proba, y_test ):
 		
 		y_pred = (y_proba > thresh).astype(int)
 
-		cmatrix = confusion_matrix(y_test, y_pred)
+		#cmatrix = confusion_matrix(y_test, y_pred)
+		cmatrix = standard_confusion_matrix(y_test, y_pred)
 		
 		confusion_matrices.append( cmatrix )
 
-		tn, fp, fn, tp = cmatrix.ravel()
+		#tn, fp, fn, tp = cmatrix.ravel()
 		
-		confusion_mat = np.array([[tp, fp], [fn, tn]])
+		#confusion_mat = np.array([[tp, fp], [fn, tn]])
 
 		# Calculate total profit for this threshold
 		# note: the multiplication below is a element-wise multiplication, not a matrix-multiplication (this got me one time)
-		profit = sum(sum(confusion_mat * costbenefit_mat)) / len(y_test)
-		profits.append(profit)
+		# profit = sum(sum(cmatrix * costbenefit_mat)) / len(y_test)
+		
+		profit = expected_value_calculation_with_class_priors( cmatrix, costbenefit_mat )
+		profits.append( profit )
 
 	
-	max_profit = max(profits)
+	max_profit = max( profits )
 
-	max_profit_index = profits.index(max(profits))
+	max_profit_index = profits.index( max( profits ) )
+
+	#max_profit_threshold = thresholds[ max_profit_index ]
 
 	print("total profit entries: " + str(len(profits)))
 	print("total confusion_matrices entries: " + str(len(confusion_matrices)))
 
-	cfmtx_max = confusion_matrices[max_profit_index]
+	cfmtx_max = confusion_matrices[ max_profit_index ]
 
-	return max_profit, cfmtx_max
+	return max_profit, cfmtx_max, max_profit_index
 
 
+def calculate_max_profit_record_percent_for_model( costbenefit_mat, y_proba, y_test ):
 
+
+	xaxis_percents = np.linspace(0, 1.0, len(y_proba))# len(profit_data))
+
+	
+
+	max_model_expected_value_tracker = []
+
+	for percent in xaxis_percents:
+
+		expected_value_for_threshold = expected_value_calculation_with_class_priors_at_threshold( costbenefit_mat, y_proba, y_test, percent )
+
+		max_model_expected_value_tracker.append( { 'ev': expected_value_for_threshold, 'percent': percent } )
+
+
+	model_max_point = max(max_model_expected_value_tracker, key=lambda x:x['ev'])
+
+	print("Most valuable ev point: ")
+	print(model_max_point["ev"])
+	print(model_max_point["percent"])
+
+	return model_max_point["ev"], model_max_point["percent"]
+
+
+def calculate_optimal_model_threshold_for_budget( costbenefit_mat, y_proba, y_test, total_budget ):
+
+	# TODO: implement
+
+	return 0
 
 

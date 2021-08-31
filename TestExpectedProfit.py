@@ -169,5 +169,55 @@ class TestExpectedProfit(unittest.TestCase):
 
 
 
+    def test_expected_value_w_priors_and_percent_instances(self):
+
+        print("Testing expected value with class priors set up and threshold param")
+
+
+        y_true = [1, 1, 1, 1, 1, 1, 0, 0, 0, 1]
+        y_pred = np.array([0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0])
+
+        #scmtrx = model_valuation.standard_confusion_matrix(y_true, y_pred)
+
+
+        # confusion_mat = np.array([[tp, fp], [fn, tn]])
+        cost_benefit_matrix = np.array([[4, -5],
+                            [0, 0]])
+
+        exp_value = model_valuation.expected_value_calculation_with_class_priors_at_threshold( cost_benefit_matrix, y_pred, y_true, 1.0 )
+        self.assertEqual(np.round(float(exp_value),2), 1.3, "Expected Value should be 1.3")
+        #self.assertEqual(exp_value, 1.29, "Expected Value should be 1.299")
+
+        #exp_value2 = model_valuation.expected_value_calculation_with_class_priors_at_threshold( cost_benefit_matrix, y_pred, y_true, 0.0 )
+        #self.assertEqual(exp_value2, 0.0, "Expected Value should be 0.0")
+
+        exp_value2 = model_valuation.expected_value_calculation_with_class_priors_at_threshold( cost_benefit_matrix, y_pred, y_true, 0.7 )
+        
+        self.assertEqual(exp_value2, 1.9, "Expected Value should be 1.9")
+
+
+        exp_value3 = model_valuation.expected_value_calculation_with_class_priors_at_threshold( cost_benefit_matrix, y_pred, y_true, 0.3 )
+        
+        self.assertEqual(exp_value3, 1.2, "Expected Value should be 1.2")        
+
+
+
+    def test_find_max_value_record_percent(self):
+
+
+        y_true = [1, 1, 1, 1, 1, 1, 0, 0, 0, 1]
+        y_pred = np.array([0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0])
+
+        # confusion_mat = np.array([[tp, fp], [fn, tn]])
+        cost_benefit_matrix = np.array([[4, -5],
+                            [0, 0]])
+
+        expected_value, percent_data = model_valuation.calculate_max_profit_record_percent_for_model( cost_benefit_matrix, y_pred, y_true )        
+
+        print("Testing finding max value and record percent:")
+        print("Expected Value: " + str(expected_value))
+        print("At Percent of Data: " + str(percent_data))
+
+
 if __name__ == '__main__':
     unittest.main()
