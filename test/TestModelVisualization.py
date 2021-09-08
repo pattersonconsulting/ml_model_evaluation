@@ -16,7 +16,7 @@ from sklearn.dummy import DummyClassifier
 import xgboost as xgb
 
 import ml_valuation
-
+from matplotlib import pyplot as plt
 
 from ml_valuation import model_valuation
 from ml_valuation import model_visualization
@@ -181,7 +181,10 @@ class TestModelVisualization(unittest.TestCase):
                             [0, 0]])
 
 
-        model_visualization.plot_profit_curves( cost_benefit_matrix, model_data_tuples, "profit_curve_multiple_models", total_budget=100 )
+        plt.figure(1)
+        fig, ax = plt.subplots(1,1,figsize = (10,10))
+
+        model_visualization.plot_profit_curves( cost_benefit_matrix, model_data_tuples, fig, ax, "profit_curve_multiple_models", total_budget=100 )
 
 
 if __name__ == '__main__':

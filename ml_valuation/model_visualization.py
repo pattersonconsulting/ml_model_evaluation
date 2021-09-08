@@ -12,7 +12,9 @@ from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import plot_precision_recall_curve
 from sklearn.metrics import roc_curve, auc, confusion_matrix
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
+
 
 from ml_valuation import model_valuation
 
@@ -69,7 +71,7 @@ def plot_roc_curves( model_data_tuple, file_name ):
 		- if every model is predicting the same set of test records then the linear space of the x-axis will be consistent across graphed plots
 
 '''
-def plot_profit_curves( costbenefit_mat, model_data_tuple, file_name=None, **kwargs ):
+def plot_profit_curves( costbenefit_mat, model_data_tuple, fig, ax, file_name=None, **kwargs ):
 
 	[[tp_value, fp_value], [fn_value, tn_value]] = costbenefit_mat
 
@@ -77,13 +79,13 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, file_name=None, **kwa
 	#cost_per_action = kwargs.get('cost_per_action', None) # already have this in hte cost benefit matrix
 	cost_per_action = fp_value
 
+	#if fig is not None:
+
+	#else:
 	
-	plt.figure(1)
-	fig, ax = plt.subplots(1,1,figsize = (10,10))
 
 	ax.grid(alpha = .4,color = 'grey',linestyle = ':')
 
-	#plt.plot([0, 1], [0, 1], 'k--')
 
 	max_model_profit_tracker = []
 
@@ -177,8 +179,8 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, file_name=None, **kwa
 
 	#plt.close()
 
-	#print("Return figure: ")
-	#print( plt )
+	print("Return figure: ")
+	print( plt )
 
 	return fig
 
