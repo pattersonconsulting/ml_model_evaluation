@@ -110,7 +110,7 @@ class TestModelVisualization(unittest.TestCase):
         #print( testy )
 
         
-        #model_data_tuples.append(tuple((testy, dummy_predicted, 'Dummy Classifier')))
+        model_data_tuples.append(tuple((testy, dummy_predicted, 'Dummy Classifier')))
 
 
 

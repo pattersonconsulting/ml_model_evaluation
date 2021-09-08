@@ -69,7 +69,7 @@ def plot_roc_curves( model_data_tuple, file_name ):
 		- if every model is predicting the same set of test records then the linear space of the x-axis will be consistent across graphed plots
 
 '''
-def plot_profit_curves( costbenefit_mat, model_data_tuple, file_name, **kwargs ):
+def plot_profit_curves( costbenefit_mat, model_data_tuple, file_name=None, **kwargs ):
 
 	[[tp_value, fp_value], [fn_value, tn_value]] = costbenefit_mat
 
@@ -164,12 +164,15 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, file_name, **kwargs )
 	#plt.legend(loc='best')
 
 	#plt.ylim(0,8.5)
+	plt.xlim(0,105)
 	plt.title("Profit Curve")
 	plt.legend(loc='best')
 	plt.xlabel("Percentage of test instances (decreasing by score)")
 	plt.ylabel("Profit ($/action)")
+	
+	if file_name is not None:
+		plt.savefig('./graphs/' + file_name + '.png')
 
-	plt.savefig('./graphs/' + file_name + '.png')
 	plt.close()
 
 
