@@ -173,7 +173,9 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, file_name=None, **kwa
 	if file_name is not None:
 		plt.savefig('./graphs/' + file_name + '.png')
 
-	plt.close()
+	#plt.close()
+
+	return plt
 
 
 '''
