@@ -12,11 +12,14 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 
 from sklearn.dummy import DummyClassifier
 
-import model_valuation
-import model_visualization
 
 import xgboost as xgb
 
+import ml_valuation
+
+
+from ml_valuation import model_valuation
+from ml_valuation import model_visualization
 
 class TestModelVisualization(unittest.TestCase):
 
@@ -107,7 +110,7 @@ class TestModelVisualization(unittest.TestCase):
         #print( testy )
 
         
-        model_data_tuples.append(tuple((testy, dummy_predicted, 'Dummy Classifier')))
+        #model_data_tuples.append(tuple((testy, dummy_predicted, 'Dummy Classifier')))
 
 
 

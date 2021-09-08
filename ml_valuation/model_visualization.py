@@ -14,7 +14,7 @@ from sklearn.metrics import roc_curve, auc, confusion_matrix
 
 import matplotlib.pyplot as plt
 
-import model_valuation
+from ml_valuation import model_valuation
 
 import locale
 locale.setlocale( locale.LC_ALL, '' )

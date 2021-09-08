@@ -3,8 +3,11 @@ import unittest
 import numpy as np
 from sklearn.metrics import confusion_matrix
 
-import model_valuation
 
+
+import ml_valuation
+
+from ml_valuation import model_valuation
 
 class TestExpectedProfit(unittest.TestCase):
 
