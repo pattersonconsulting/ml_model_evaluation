@@ -175,7 +175,10 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, file_name=None, **kwa
 
 	#plt.close()
 
-	return plt
+	#print("Return figure: ")
+	#print( plt )
+
+	return ax
 
 
 '''
