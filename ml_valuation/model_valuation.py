@@ -250,8 +250,8 @@ def calculate_optimal_model_threshold( costbenefit_mat, y_proba, y_test ):
 
 	#max_profit_threshold = thresholds[ max_profit_index ]
 
-	print("total profit entries: " + str(len(profits)))
-	print("total confusion_matrices entries: " + str(len(confusion_matrices)))
+	#print("total profit entries: " + str(len(profits)))
+	#print("total confusion_matrices entries: " + str(len(confusion_matrices)))
 
 	cfmtx_max = confusion_matrices[ max_profit_index ]
 

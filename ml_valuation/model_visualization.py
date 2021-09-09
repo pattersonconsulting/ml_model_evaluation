@@ -144,7 +144,7 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, fig, ax, file_name=No
 
 		max_actions_budgeted = total_budget / (cost_per_action * -1)
 
-		percent_of_data_budgeted = (max_actions_budgeted * total_records)
+		percent_of_data_budgeted = (max_actions_budgeted / total_records)
 
 
 		print("total_budget: " + str(total_budget))
@@ -179,8 +179,8 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, fig, ax, file_name=No
 
 	#plt.close()
 
-	print("Return figure: ")
-	print( plt )
+	#print("Return figure: ")
+	#print( plt )
 
 	return fig
 
