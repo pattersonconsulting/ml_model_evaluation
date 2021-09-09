@@ -184,7 +184,7 @@ class TestModelVisualization(unittest.TestCase):
         plt.figure(1)
         fig, ax = plt.subplots(1,1,figsize = (10,10))
 
-        model_visualization.plot_profit_curves( cost_benefit_matrix, model_data_tuples, fig, ax, "profit_curve_multiple_models", total_budget=100 )
+        model_visualization.plot_profit_curves( cost_benefit_matrix, model_data_tuples, fig, ax, "profit_curve_multiple_models", total_budget=1500 )
 
 
 if __name__ == '__main__':

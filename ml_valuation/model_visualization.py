@@ -144,7 +144,7 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, fig, ax, file_name=No
 
 		max_actions_budgeted = total_budget / (cost_per_action * -1)
 
-		percent_of_data_budgeted = (max_actions_budgeted / total_records)
+		percent_of_data_budgeted = (max_actions_budgeted / total_records) * 100
 
 
 		print("total_budget: " + str(total_budget))
@@ -155,7 +155,7 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, fig, ax, file_name=No
 
 		print("percent_of_data_budgeted: " + str(percent_of_data_budgeted))
 
-		ax.axvline( percent_of_data_budgeted, 0, mostValuableModelMax["profit"], linestyle = '--', color = 'green',label = 'Max Budget Line')	
+		ax.axvline( percent_of_data_budgeted, 0, 1, linestyle = '--', color = 'green',label = 'Max Budget Line')	
 	
 
 	#ax.plot([-5, 110], [0, 0], color='navy', linestyle='--',lw = 2);
