@@ -136,7 +136,7 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, fig, ax, file_name=No
 	#ax.axvline(mostValuableModelMax["threshold"], 0, ylim1,linestyle = '--', color = 'k',label = 'Max Profit')
 
 	#ind = np.argmax(profits)
-	ax.axvline( linspace_range_xaxis[ mostValuableModelMax["max_profit_index"] ], 0, mostValuableModelMax["profit"], linestyle = '--', color = 'k',label = 'Max Profit Line')	
+	ax.axvline( linspace_range_xaxis[ mostValuableModelMax["max_profit_index"] ], 0, mostValuableModelMax["profit"], linestyle = ':', color = 'g',label = 'Max Profit Line')	
 	
 
 
@@ -155,7 +155,7 @@ def plot_profit_curves( costbenefit_mat, model_data_tuple, fig, ax, file_name=No
 
 		print("percent_of_data_budgeted: " + str(percent_of_data_budgeted))
 
-		ax.axvline( percent_of_data_budgeted, 0, 1, linestyle = '--', color = 'green',label = 'Max Budget Line')	
+		ax.axvline( percent_of_data_budgeted, 0, 1, linestyle = '--', color = 'red',label = 'Max Budget Line')	
 	
 
 	#ax.plot([-5, 110], [0, 0], color='navy', linestyle='--',lw = 2);
