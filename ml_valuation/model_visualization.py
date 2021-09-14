@@ -70,6 +70,12 @@ def plot_roc_curves( model_data_tuple, file_name ):
 
 		- if every model is predicting the same set of test records then the linear space of the x-axis will be consistent across graphed plots
 
+
+	References
+
+		Provost, F., & Fawcett, T. (2013). Data science for business: [what you need to know about data mining and data-analytic thinking]. Sebastopol, Calif.: O'Reilly.
+
+
 '''
 def plot_profit_curves( costbenefit_mat, model_data_tuple, fig, ax, file_name=None, **kwargs ):
 
@@ -202,7 +208,7 @@ Implementation Notes
 	
 	References: 
 
-		[1] "Data Science for Business", O'Reilly 2013, Provost and Fawcett
+		[1] Provost, F., & Fawcett, T. (2013). Data science for business: [what you need to know about data mining and data-analytic thinking]. Sebastopol, Calif.: O'Reilly.
 
 			-	Expected Value (with class priors) concept and equations: p.201
 			-	Profit Curve concepts: p.212

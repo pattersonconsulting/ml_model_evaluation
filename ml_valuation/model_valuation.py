@@ -89,6 +89,10 @@ def calc_class_priors(standard_cmatrix):
 		* this is the naive version that doesnt not take into account class priors
 		* here we use "estimates of probabilities": p(h,a) == count(h,a) / TotalInstances (NOT the TP Rate, etc)
 
+	References
+
+		Provost, F., & Fawcett, T. (2013). Data science for business: [what you need to know about data mining and data-analytic thinking]. Sebastopol, Calif.: O'Reilly.
+
 
 '''
 def expected_value_calculation_naive(standard_cmatrix, cost_benefit_matrix):
@@ -116,11 +120,14 @@ def expected_value_calculation_naive(standard_cmatrix, cost_benefit_matrix):
 
 
 '''
-	Calculating Expected Profit (binary classifier) with class priors
+	Calculating Expected Value (binary classifier) with class priors
 
 		* the p(Y|p) correspondes directly to the *true positive rate* (from confusion matrix) -- as do the other associated values
 		* this is foundationally different than the "naive"-version where we use "estimates of probabilities": p(h,a) == count(h,a) / TotalInstances
 
+	References
+
+		Provost, F., & Fawcett, T. (2013). Data science for business: [what you need to know about data mining and data-analytic thinking]. Sebastopol, Calif.: O'Reilly.
 
 '''
 def expected_value_calculation_with_class_priors(standard_cmatrix, cost_benefit_matrix):
