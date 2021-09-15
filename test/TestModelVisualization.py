@@ -187,5 +187,6 @@ class TestModelVisualization(unittest.TestCase):
         model_visualization.plot_profit_curves( cost_benefit_matrix, model_data_tuples, fig, ax, "profit_curve_multiple_models", total_budget=1500 )
 
 
+
 if __name__ == '__main__':
     unittest.main()
