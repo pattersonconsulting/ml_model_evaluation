@@ -9,6 +9,16 @@ import ml_valuation
 
 from ml_valuation import model_valuation
 
+'''
+    Unit testing module for model_valuation.py
+
+    To Run All tests in file:
+
+        (from parent directory)
+
+        python -m unittest test.TestExpectedProfit
+
+'''
 class TestExpectedProfit(unittest.TestCase):
 
     def test_sum(self):
@@ -39,6 +49,67 @@ class TestExpectedProfit(unittest.TestCase):
         self.assertEqual(tn, 0, "TN Should be 0")
 
         self.assertEqual(fp, 2, "FP Should be 2")
+
+
+
+
+
+    def test_standard_confusion_matrix_for_top_ranked_percent_0(self):
+
+        print("test_standard_confusion_matrix_for_top_ranked_percent_0")
+
+        y_true = [0, 1, 0, 1]
+        y_pred = [1, 1, 1, 0]
+
+        scmtrx = model_valuation.standard_confusion_matrix_for_top_ranked_percent(y_true, y_pred, 0.5, 1.0)
+
+        [[tp, fp], [fn, tn]] = scmtrx
+
+
+
+        
+        print("TP: " + str(tp))
+        print("TN: " + str(tn))
+        print("FP: " + str(fp))
+        print("FN: " + str(fn))
+
+
+        
+        self.assertEqual(tp, 1, "TP Should be 1")
+        self.assertEqual(tn, 0, "TN Should be 0")
+
+        self.assertEqual(fp, 2, "FP Should be 2")
+
+
+
+
+    def test_standard_confusion_matrix_for_top_ranked_percent_1(self):
+
+        print("test_standard_confusion_matrix_for_top_ranked_percent_1")
+
+        y_true = [1, 1, 0, 0, 0, 1, 0, 1]
+        y_pred = [0.9, 0.8, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0]
+
+        scmtrx = model_valuation.standard_confusion_matrix_for_top_ranked_percent(y_true, y_pred, 0.5, 0.5)
+
+        [[tp, fp], [fn, tn]] = scmtrx
+
+
+
+        
+        print("TP: " + str(tp))
+        print("TN: " + str(tn))
+        print("FP: " + str(fp))
+        print("FN: " + str(fn))
+
+
+        
+        self.assertEqual(tp, 2, "TP Should be 2")
+        self.assertEqual(tn, 2, "TN Should be 2")
+
+        self.assertEqual(fp, 0, "FP Should be 0")
+
+
 
 
     def test_standard_confusion_matrix_cond_prob(self):

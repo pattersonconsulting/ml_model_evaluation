@@ -21,6 +21,16 @@ from matplotlib import pyplot as plt
 from ml_valuation import model_valuation
 from ml_valuation import model_visualization
 
+'''
+    Unit testing module for model_visualization.py
+
+    To Run All tests in file:
+
+        (from parent directory)
+
+        python -m unittest test.TestModelVisualization
+
+'''
 class TestModelVisualization(unittest.TestCase):
 
 
@@ -108,6 +118,8 @@ class TestModelVisualization(unittest.TestCase):
 
         #print( dummy_predicted )
         #print( testy )
+        #print("\n\ny_proba TYPE: " + str(type(dummy_predicted)))
+
 
         
         model_data_tuples.append(tuple((testy, dummy_predicted, 'Dummy Classifier')))
