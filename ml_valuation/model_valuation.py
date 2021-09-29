@@ -53,8 +53,8 @@ def standard_confusion_matrix_for_top_ranked_percent(y_test_list, y_probability_
 
 
 
-	print( "sorted_y_probabilities: " + str(sorted_y_probabilities))
-	print( "sorted_y_test_labels  : " + str(sorted_y_test_labels))
+	#print( "sorted_y_probabilities: " + str(sorted_y_probabilities))
+	#print( "sorted_y_test_labels  : " + str(sorted_y_test_labels))
 	
 	# 2. Convert predicted_prob to classification labels
 
@@ -78,8 +78,8 @@ def standard_confusion_matrix_for_top_ranked_percent(y_test_list, y_probability_
 
 	
 	
-	print( "Predictions: " + str(y_sorted_predicted_labels_sliced))
-	print( "Labels     : " + str(y_sorted_test_labels_sliced))
+	#print( "Predictions: " + str(y_sorted_predicted_labels_sliced))
+	#print( "Labels     : " + str(y_sorted_test_labels_sliced))
 	
 
 	confusion_matrix = standard_confusion_matrix(y_sorted_test_labels_sliced, y_sorted_predicted_labels_sliced)
@@ -91,16 +91,16 @@ def standard_confusion_matrix_for_top_ranked_percent(y_test_list, y_probability_
 
 
 
-'''
-	Takes a [2, 2] np.array as input with the format: [[tp, fp], [fn, tn]]
-	
-
-	# this function calculates the
-	# conditional probabilities of each cell in our confusion matrix 
-	# given the probability of in our population
-
-'''
 def calc_confusion_matrix_conditional_probabilities(standard_cmatrix):
+	'''
+		Takes a [2, 2] np.array as input with the format: [[tp, fp], [fn, tn]]
+		
+
+		# this function calculates the
+		# conditional probabilities of each cell in our confusion matrix 
+		# given the probability of in our population
+
+	'''
 
 	[[tp, fp], [fn, tn]] = standard_cmatrix
 
@@ -112,16 +112,17 @@ def calc_confusion_matrix_conditional_probabilities(standard_cmatrix):
 	return np.array([[tp_rate, fp_rate], [fn_rate, tn_rate]])
 
 
-'''
-	Takes a [2, 2] np.array as input with the format: [[tp, fp], [fn, tn]]
-	
 
-	# this function calculates the
-	# ESTIMATED probabilities of each cell in our confusion matrix 
-	# given the TOTAL RECORDS in our population
-
-'''
 def calc_confusion_matrix_estimated_probabilities(standard_cmatrix):
+	'''
+		Takes a [2, 2] np.array as input with the format: [[tp, fp], [fn, tn]]
+		
+
+		# this function calculates the
+		# ESTIMATED probabilities of each cell in our confusion matrix 
+		# given the TOTAL RECORDS in our population
+
+	'''
 
 	total_records = calc_total_records(standard_cmatrix)
 

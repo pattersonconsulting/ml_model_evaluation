@@ -3,6 +3,9 @@ import unittest
 import numpy as np
 from sklearn.metrics import confusion_matrix
 
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
 
 
 import ml_valuation
@@ -87,10 +90,35 @@ class TestExpectedProfit(unittest.TestCase):
 
         print("test_standard_confusion_matrix_for_top_ranked_percent_1")
 
-        y_true = [1, 1, 0, 0, 0, 1, 0, 1]
-        y_pred = [0.9, 0.8, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0]
 
-        scmtrx = model_valuation.standard_confusion_matrix_for_top_ranked_percent(y_true, y_pred, 0.5, 0.5)
+
+
+        X, y = make_classification(n_samples=50, n_features=4, n_redundant=0, n_clusters_per_class=1, weights=[0.85], flip_y=0, random_state=4)
+        # split into train/test sets
+        trainX, testX, trainy, testy = train_test_split(X, y, test_size=0.5, random_state=2, stratify=y)
+
+        #print(trainX)
+
+        print("Test Data:\n")
+        unique, counts = np.unique(testy, return_counts=True)
+        print( dict(zip(unique, counts)) )
+
+        # fit a model
+        model = LogisticRegression(solver='lbfgs')
+        model.fit(trainX, trainy)
+        # predict probabilities
+        yhat = model.predict_proba(testX)
+
+        #print( "prediction probabilities: " + str(yhat.shape) )
+
+        yhat = yhat[:, 1]
+
+
+
+        #y_true = [1, 1, 0, 0, 0, 1, 0, 1]
+        #y_pred = [0.9, 0.8, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0]
+
+        scmtrx = model_valuation.standard_confusion_matrix_for_top_ranked_percent(testy, yhat, 0.5, 0.5)
 
         [[tp, fp], [fn, tn]] = scmtrx
 
@@ -105,9 +133,9 @@ class TestExpectedProfit(unittest.TestCase):
 
         
         self.assertEqual(tp, 2, "TP Should be 2")
-        self.assertEqual(tn, 2, "TN Should be 2")
+        self.assertEqual(tn, 8, "TN Should be 2")
 
-        self.assertEqual(fp, 0, "FP Should be 0")
+        self.assertEqual(fp, 1, "FP Should be 0")
 
 
 
