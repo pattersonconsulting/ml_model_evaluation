@@ -14,7 +14,7 @@ def standard_confusion_matrix(y_true, y_pred):
 	'''
 		Reformat confusion matrix output from sklearn for plotting profit curve.
 	'''
-	[[tn, fp], [fn, tp]] = confusion_matrix(y_true, y_pred)
+	[[tn, fp], [fn, tp]] = confusion_matrix(y_true, y_pred, labels=[0,1])
 	return np.array([[tp, fp], [fn, tn]])
 
 
