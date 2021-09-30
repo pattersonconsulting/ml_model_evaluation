@@ -138,6 +138,57 @@ class TestExpectedProfit(unittest.TestCase):
         self.assertEqual(fp, 1, "FP Should be 0")
 
 
+    def test_standard_confusion_matrix_for_n_ranked_instances(self):
+
+        print("test_standard_confusion_matrix_for_n_ranked_instances")
+
+
+
+
+        X, y = make_classification(n_samples=50, n_features=4, n_redundant=0, n_clusters_per_class=1, weights=[0.85], flip_y=0, random_state=4)
+        # split into train/test sets
+        trainX, testX, trainy, testy = train_test_split(X, y, test_size=0.5, random_state=2, stratify=y)
+
+        #print(trainX)
+
+        print("Test Data:\n")
+        unique, counts = np.unique(testy, return_counts=True)
+        print( dict(zip(unique, counts)) )
+
+        # fit a model
+        model = LogisticRegression(solver='lbfgs')
+        model.fit(trainX, trainy)
+        # predict probabilities
+        yhat = model.predict_proba(testX)
+
+        #print( "prediction probabilities: " + str(yhat.shape) )
+
+        yhat = yhat[:, 1]
+
+
+
+        #y_true = [1, 1, 0, 0, 0, 1, 0, 1]
+        #y_pred = [0.9, 0.8, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0]
+
+        scmtrx = model_valuation.standard_confusion_matrix_for_n_ranked_instances(testy, yhat, 0.5, 4)
+
+        [[tp, fp], [fn, tn]] = scmtrx
+
+
+
+        
+        print("TP: " + str(tp))
+        print("TN: " + str(tn))
+        print("FP: " + str(fp))
+        print("FN: " + str(fn))
+
+
+        
+        self.assertEqual(tp + tn + fp + fn, 4, "count should be 4")
+        #self.assertEqual(tn, 8, "TN Should be 2")
+
+        #self.assertEqual(fp, 1, "FP Should be 0")
+
 
 
     def test_standard_confusion_matrix_cond_prob(self):

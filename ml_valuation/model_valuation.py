@@ -89,6 +89,71 @@ def standard_confusion_matrix_for_top_ranked_percent(y_test_list, y_probability_
 
 
 
+def standard_confusion_matrix_for_n_ranked_instances(y_test_list, y_probability_list, threshold, top_ranked_instances_count ):
+	'''
+		This function is meant to test models that would be used to make N predictions (limited) rather than the whole test set;
+
+		- this is useful when we want to see how many FPs might exist in the first N ranked predictions
+
+		- mainly considered a helper function when evaluating how a model might be used in practice
+
+	'''
+
+	y_probability = np.asarray(y_probability_list)
+	y_test_labels = np.array(y_test_list)
+
+
+
+	record_count = float( len( y_test_labels ) )
+
+	slice_index = top_ranked_instances_count
+	if (slice_index < 0):
+		slice_index = 0
+
+	# 1. sort both arrays by probability of predictions (highest to low)
+	#thresholds = sorted(y_proba, reverse=True)
+
+	sorted_indexs = np.argsort(-y_probability)
+
+	sorted_y_probabilities = y_probability[sorted_indexs]
+	sorted_y_test_labels = y_test_labels[sorted_indexs]
+
+
+
+	#print( "sorted_y_probabilities: " + str(sorted_y_probabilities))
+	#print( "sorted_y_test_labels  : " + str(sorted_y_test_labels))
+	
+	# 2. Convert predicted_prob to classification labels
+
+	y_sorted_predicted_labels = (sorted_y_probabilities >= threshold).astype(int) #  + 0.0001
+
+	# 3. slice arrays down to top predictions
+
+	y_sorted_predicted_labels_sliced = y_sorted_predicted_labels[0:slice_index]
+	y_sorted_test_labels_sliced = sorted_y_test_labels[0:slice_index]
+
+	# sort thresholds such that the thresholds closest to 1.0 start towards the front of the list
+
+	#threshold = thresholds[ threshold_index ]
+
+	'''
+	print("threshold_index: " + str(threshold_index))
+	print( "thresholds: " + str(thresholds) )
+	print( "threshold: " + str(threshold) )
+	print( "y_proba: " + str(y_proba))
+	'''
+
+	
+	
+	print( "Predictions: " + str(y_sorted_predicted_labels_sliced))
+	print( "Labels     : " + str(y_sorted_test_labels_sliced))
+	
+
+	confusion_matrix = standard_confusion_matrix(y_sorted_test_labels_sliced, y_sorted_predicted_labels_sliced)
+
+	return confusion_matrix
+
+
 
 
 def calc_confusion_matrix_conditional_probabilities(standard_cmatrix):
