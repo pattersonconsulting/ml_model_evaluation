@@ -146,7 +146,7 @@ def standard_confusion_matrix_for_n_ranked_instances(y_test_list, y_probability_
 	
 	
 	#print( "Predictions: " + str(y_sorted_predicted_labels_sliced))
-	print( "Labels     : " + str(y_sorted_test_labels_sliced))
+	#print( "Labels     : " + str(y_sorted_test_labels_sliced))
 	
 
 	confusion_matrix = standard_confusion_matrix(y_sorted_test_labels_sliced, y_sorted_predicted_labels_sliced)
