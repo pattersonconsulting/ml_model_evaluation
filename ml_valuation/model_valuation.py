@@ -393,7 +393,8 @@ def expected_value_calculation_with_class_priors_at_threshold( costbenefit_mat, 
 	#print("y_proba: " + str(type(y_proba)))
 	
 
-	y_predict = (y_proba > threshold - 0.0001).astype(int) #  + 0.0001
+	#y_predict = (y_proba > threshold - 0.0001).astype(int) #  + 0.0001
+	y_predict = (y_proba >= threshold).astype(int) #  + 0.0001
 
 	'''
 	print( "y_predict: " + str(y_predict))
