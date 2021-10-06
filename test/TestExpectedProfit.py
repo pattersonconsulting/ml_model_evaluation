@@ -190,6 +190,48 @@ class TestExpectedProfit(unittest.TestCase):
         #self.assertEqual(fp, 1, "FP Should be 0")
 
 
+    def test_order_prediction_prob_for_n_ranked_instances(self):
+
+        print("test_order_prediction_prob_for_n_ranked_instances")
+
+
+
+
+        X, y = make_classification(n_samples=50, n_features=4, n_redundant=0, n_clusters_per_class=1, weights=[0.85], flip_y=0, random_state=4)
+        # split into train/test sets
+        trainX, testX, trainy, testy = train_test_split(X, y, test_size=0.5, random_state=2, stratify=y)
+
+        #print(trainX)
+
+        print("Test Data:\n")
+        unique, counts = np.unique(testy, return_counts=True)
+        print( dict(zip(unique, counts)) )
+
+        # fit a model
+        model = LogisticRegression(solver='lbfgs')
+        model.fit(trainX, trainy)
+        # predict probabilities
+        yhat = model.predict_proba(testX)
+
+        #print( "prediction probabilities: " + str(yhat.shape) )
+
+        yhat = yhat[:, 1]
+
+
+
+        #y_true = [1, 1, 0, 0, 0, 1, 0, 1]
+        #y_pred = [0.9, 0.8, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0]
+
+        y_sorted_test_labels, y_sorted_predicted_labels, sorted_y_probabilities = model_valuation.order_prediction_prob_for_n_ranked_instances(testy, yhat, 0.5, 4)
+
+        print( y_sorted_test_labels )
+        print( y_sorted_predicted_labels )
+        print( sorted_y_probabilities )
+    
+
+
+        
+        #self.assertEqual(tp + tn + fp + fn, 4, "count should be 4")
 
     def test_standard_confusion_matrix_cond_prob(self):
 
